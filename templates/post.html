@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<header>
+  <nav class="navbar navbar-dark mb-3 border-bottom border-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand h1" href="/">Very Simple Forum</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+
+  <h1>議題を投稿する</h1>
+  <form action="/" method="POST">
+    
+    <input class="form-control mb-3 border-bottom border-dark" name="user" type="text" placeholder="名前(全角20文字以内)" aria-label="" required>
+    <input class="form-control mb-3 border-bottom border-dark" name="title" type="text" placeholder="タイトル(全角30文字以内)" aria-label="" required>
+    <div class="mb-3">
+      <label for="" class="form-label">投稿内容</label>
+      <textarea class="form-control border-bottom border-dark" name="detail" id="" rows="3" required></textarea>
+    </div>
+    <a href="/" type="button" class="btn btn-outline-danger">戻る</a>
+    <button type="submit" class="btn btn-danger">投稿する</button>
+  </form>
+</div>
+{% endblock %}

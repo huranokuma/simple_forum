@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+  {% block head %}
+  {% endblock %}
+{% block body %}
+<header>
+  <nav class="navbar navbar-dark border-bottom border-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand h1" href="/">Very Simple Forum</a>
+      <form class="d-flex" method="POST">
+        <input class="form-control me-2" type="search" placeholder="議題を検索する" aria-label="Search" name="keyword">
+        <button class="btn btn-danger" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+</header>
+
+
+
+<div class="container my-3">
+  <div class="row row-cols-1 row-cols-md-2 g-4 mb-5 mx-auto">
+    <div class="col-10">
+      <a href="/post" class=" btn btn-danger">議題を投稿する</a>
+      {% if is_login %}
+      <a href="/logout" class=" btn btn-success">ログアウト(管理者用)</a>
+      {% endif %}
+    </div>
+    {% for post in posts %}
+    <div class="col">
+      <div class="card border-dark">
+        
+          <h5 class="card-header"><a href="/thread/{{post.id}}" class="">{{post.title}}</a></h5>
+        
+
+        <div class="card-body">
+          <small class="card-text text-muted">日付：{{post.post_date.strftime('%Y/%m/%d %H:%M:%S')}} by :
+          </small>
+          <small class="card-text text-muted">{{post.user}}</small>
+          <p class="card-text">{{post.detail}}</p>
+          {% if is_login %}
+          <a type="button" href="/delete/{{post.id}}" class="btn btn-danger">削除</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <nav aria-label="..." class="">
+    <ul class="pagination justify-content-center">
+      {% if current_page !=1 %}
+      <li class="page-item">
+        <a class="page-link" href="/{{current_page-1}}" tabindex="-1">前に戻る</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="/{{current_page-1}}">{{current_page-1}}</a></li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="/{{current_page-1}}" tabindex="-1">前に戻る</a>
+      </li>
+      {% endif %}
+      <li class="page-item active" aria-current="page">
+        <a class="page-link" href="">{{current_page}}</a>
+      </li>
+      {% if posts[0] != Null %}
+      <li class="page-item"><a class="page-link" href="/{{current_page +1}}">{{current_page+1}}</a></li>
+      <li class="page-item">
+        <a class="page-link" href="/{{current_page +1}}">次へ進む</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}

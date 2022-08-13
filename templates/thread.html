@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block head %}
+<style>
+  .card{
+    background-color: #FFB4B4;
+  }
+</style>
+{% endblock %}
+{% block body %}
+<header>
+  <nav class="navbar navbar-dark mb-3 border-bottom border-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand h1" href="/">Very Simple Forum</a>
+    </div>
+  </nav>
+</header>
+<div class="container mb-5">
+  <div class="row row-cols-1 g-4 mb-5 mx-auto border-bottom-0">
+    {% for comment in comments %}
+    <div class="col">
+      <div class="card border-dark">
+        <div class="card-header">
+          {{comment.title}}
+        </div>
+        <div class="card-body">
+          <small class="card-text text-muted">{{comment.post_date.strftime('%Y/%m/%d %H:%M:%S')}} by :</small>
+          <small class="card-text text-muted">{{comment.user}}</small>
+          <p class="card-text">{{comment.detail}}</p>
+          {% if comment.post_date != comments[0]['post_date'] and is_login %}
+          <a type="button" class="btn btn-danger" href="/delete_comment/{{comment.Title_id}}/{{comment.id}}/">削除</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+  <h3>返信を投稿する</h3>
+  <form action="/thread/comment" method="POST">
+
+    <input type="hidden" name="Title_id" value="{{comments[0]['Title_id']}}">
+    <input class="form-control mb-3 border-dark border" name="user" type="text" placeholder="名前(全角20文字以内)" aria-label="" required>
+    <input class="form-control mb-3 border-dark border" name="title" type="text" placeholder="タイトル(全角30文字以内)" aria-label="" required>
+    <div class="mb-3">
+      <label for="" class="form-label">返信内容</label>
+      <textarea class="form-control border-dark border" name="detail" id="" rows="3" required></textarea>
+    </div>
+    <a href="/" type="button" class="btn btn-outline-danger">戻る</a>
+    <button type="submit" class="btn btn-danger">投稿する</button>
+  </form>
+</div>
+
+
+
+{% endblock %}
